@@ -13,6 +13,10 @@ import javax.persistence.*;
 @Getter @Setter
 public class EventEntity {
 
+    public EventEntity(EventEntity eventEntity) {
+        this(eventEntity.eventId, eventEntity.getStartTime(), eventEntity.getType(), eventEntity.getMatch(), eventEntity.getLeagueName());
+    }
+
     @Id
     @Column
     @GeneratedValue

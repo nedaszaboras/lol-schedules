@@ -1,6 +1,7 @@
 package rpa.api;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -58,5 +59,10 @@ public class Controller {
     public void update() {
         ResponseEntity<DataDTO> data = apiService.getSchedule();
         apiService.saveSchedule(Objects.requireNonNull(Objects.requireNonNull(data.getBody()).getData()).getSchedule());
+    }
+    @ApiOperation("Imports an event to happen in 60s")
+    @PatchMapping("/importTestEvent")
+    public void importTestEvent() {
+        apiService.importTestEvent();
     }
 }

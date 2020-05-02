@@ -14,10 +14,7 @@ import rpa.repository.EventRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,11 +54,17 @@ public class ApiService {
     public List<EventResponseDTO> getTodaysEvents() {
         LocalDateTime startDate = LocalDate.now().atStartOfDay();
         LocalDateTime endDate = startDate.plusDays(1);
-
-//        dateTime = dateTime.plusDays(1);
-//        return eventRepository.findAllByStartTimeAfter(new DateTime().withTimeAtStartOfDay()).stream().map(scheduleToDTOMapper::map).collect(Collectors.toList());
         return eventRepository.findAllByStartTimeBetween(startDate, endDate).stream().map(scheduleToDTOMapper::map).collect(Collectors.toList());
 
+    }
+
+    public void importTestEvent() {
+        EventEntity event = new EventEntity(eventRepository.getOne((long) 190));
+
+        event.setStartTime(LocalDateTime.now().plusSeconds((long) 60));
+//        EventEntity testEvent = new EventEntity((long) 666, LocalDateTime.now().plusSeconds((long) 60), "type",
+//                new MatchEntity((long)666, "matchId", 0, new Collections.singletonList(TeamEntity((long)666, "code", "testTeam", "testImage", 0, 0)), new EventEntity()), ;
+        eventRepository.save(event);
     }
 
     public void getFullScheduleWithPagination() {
@@ -83,21 +86,6 @@ public class ApiService {
         }
         System.out.println(data);
     }
-
-    //get event details, that include stream information
-    // MATCH ID REQUIRED
-    private void getEventDetails() {}
-
-//    private List<String> getLeagueIds() {
-//        RestTemplate restTemplate = new RestTemplate();
-//        ResponseEntity<LeagueDTO> data = restTemplate.exchange("https://esports-api.lolesports.com/persisted/gw/getLeagues?hl=en-GB", HttpMethod.GET, createHttpEntity(), LeagueDTO.class);
-//
-//        List<LeagueEntity> entities = new ArrayList<>();
-//        List<LeagueDTOs> dtos = Objects.requireNonNull(data.getBody()).getData().getLeagues();
-//
-//        return dtos.stream().map(LeagueDTOs::getId
-//        ).collect(Collectors.toList());
-//    }
 
     private HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();

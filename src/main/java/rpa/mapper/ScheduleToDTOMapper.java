@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class ScheduleToDTOMapper {
 
     public EventResponseDTO map(EventEntity eventEntity) {
-        return new EventResponseDTO(eventEntity.getStartTime(), eventEntity.getType(), eventEntity.getLeagueName(), mapMatch(eventEntity.getMatch()));
+        return new EventResponseDTO(eventEntity.getStartTime(), eventEntity.getType(), eventEntity.getLeagueName(), eventEntity.getMatch() != null ? mapMatch(eventEntity.getMatch()) : null);
     }
 
     private MatchResponseDTO mapMatch(MatchEntity matchEntity) {

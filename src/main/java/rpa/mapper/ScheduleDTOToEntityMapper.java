@@ -14,10 +14,12 @@ public class ScheduleDTOToEntityMapper {
         EventEntity event = EventEntity.builder()
                 .startTime(eventDTO.getStartTime())
                 .type(eventDTO.getType())
-                .match(mapMatch(eventDTO.getMatch()))
+                .match(eventDTO.getMatch() != null ? mapMatch(eventDTO.getMatch()) : null)
                 .leagueName(eventDTO.getLeague().getName())
                 .build();
-        event.getMatch().setEvent(event);
+        if (event.getMatch() != null) {
+            event.getMatch().setEvent(event);
+        }
         return event;
     }
 
@@ -36,8 +38,8 @@ public class ScheduleDTOToEntityMapper {
     private MatchEntity mapMatch(MatchDTO matchDTO) {
         return MatchEntity.builder()
                 .matchId(matchDTO.getId())
-                .gameCount(matchDTO.getStrategy().getCount())
-                .teams(mapTeams(matchDTO.getTeams()))
+                .gameCount(matchDTO.getStrategy() != null ? matchDTO.getStrategy().getCount() : null)
+                .teams(matchDTO.getTeams() != null ? mapTeams(matchDTO.getTeams()) : null)
                 .build();
     }
 }
